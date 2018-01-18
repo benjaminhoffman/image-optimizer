@@ -1,0 +1,9 @@
+.DS_Store
+/dist
+/node_modules
+
+# removes any lingering images in this repo
+*.png
+*.jpg
+*.jpeg
+*.webp
