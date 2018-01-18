@@ -38,7 +38,9 @@ imageOptimizer(
 - `/dist/example_446w_23699b50.webp`
 
 ### To Do
+- make faster... right now we `writeFileSync` and `readFileSync` but I think this can be refactored to be async and use async/await
+- resize count is hard coded to 5, we should make this more dynamic
 - error handling
 - logging
 - linter
-- resize count is hard coded to 5, we should make this more dynamic
+- connect to a CDN
