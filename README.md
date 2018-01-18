@@ -38,9 +38,15 @@ imageOptimizer(
 - `/dist/example_446w_23699b50.webp`
 
 ### To Do
+- ability to pass in a directory, not just a file name
+- option to edit the PNG and JPG compression settings
 - make faster... right now we `writeFileSync` and `readFileSync` but I think this can be refactored to be async and use async/await
 - resize count is hard coded to 5, we should make this more dynamic
 - error handling
 - logging
 - linter
 - connect to a CDN
+
+### Notes
+- `.webp` files have a HUGE saving.  Use the `<picture>` element to implement
+- need to review Sharp's default settings for compression
