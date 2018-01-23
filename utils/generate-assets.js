@@ -20,6 +20,7 @@ const RESIZE_COUNT = 5;
 
 const generateAssets = (file, hash, options) => {
   const image = sharp(file);
+  const image2 = sharp(file);
   const ext = path.extname(file);
   const fileName = path.basename(file, ext);
   const hash8 = hash.substr(0, 8);
@@ -40,7 +41,7 @@ const generateAssets = (file, hash, options) => {
 
         // will generate new, compressed webp files of originl
         if (options && options.webp) {
-          image
+          image2
             .resize(resize)
             .webp()
             .toFile(`./dist/${fileName}_${resize}w_${hash8}.webp`, err => {

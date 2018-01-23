@@ -4,8 +4,8 @@ const generateAssets = require("./utils/generate-assets");
 
 /**
  * Pass in a path and object, it will generate new images in dist folder
- * @param {String} file 
- * @param {Object} options 
+ * @param {String} file
+ * @param {Object} options
  * @return - generates 5 compressed images of various sizes
  */
 
@@ -15,11 +15,12 @@ async function main(file, options) {
 
   if (!isCompressed) {
     generateAssets(file, hash, options);
-
   } else {
     // no compression / resize necessary
     console.log(`already compressed - ${file}`);
   }
 }
+
+main("./caregiver-checking-honor-app.jpg", { webp: true });
 
 module.exports = main;
