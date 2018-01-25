@@ -13,15 +13,16 @@ const createFileName = (properties = {}, options = {}) => {
   }
 
   // if options.remove2x, remove `@2x` from file name
-  if (remove2x && fileName.includes('@2x')) {
-    fileName = fileName.replace('@2x', '');
+  if (remove2x && fileName.includes("@2x")) {
+    fileName = fileName.replace("@2x", "");
   }
 
   // if options.replaceSpaces, replace ' ' with another character
-  if (replaceSpaces && fileName.includes(' ')) {
-    fileName = fileName.replace(' ', replaceSpaces);
+  if (replaceSpaces && fileName.includes(" ")) {
+    fileName = fileName.replace(/ /g, replaceSpaces);
   }
 
+  console.log(fileName);
   return `./dist/${fileName}_${hash8}_${resize}w${ext}`;
 };
 

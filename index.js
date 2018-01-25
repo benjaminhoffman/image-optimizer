@@ -44,7 +44,7 @@ fs.readdir(assets, (err, files) => {
       webp: true, // also create webp versions
       toLowerCase: true, // convert file names to all lower case
       remove2x: true, // remove `@2x` from file name (sketch feature)
-      replaceSpaces: "-" // use `_` instead of spaces
+      replaceSpaces: "_" // use `_` instead of spaces
     })
       .then(result => {
         console.log(`${result}`);
