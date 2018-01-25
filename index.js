@@ -1,38 +1,50 @@
 const getImageHash = require("./utils/get-image-hash");
 const isAlreadyCompressed = require("./utils/is-already-compressed");
 const generateAssets = require("./utils/generate-assets");
-const assert = require('assert')
+const asserts = require("./utils/asserts");
+const assets = "./assets/";
+const fs = require("fs");
 
 /**
  * Pass in a path and object, it will generate new images in dist folder
  * @param {String} file
  * @param {Object} options
- * @return - generates 5 compressed images of various sizes
+ * @return - generates compressed images of various sizes
  */
 
 async function main(file, options) {
-  // assertions
-  assert(typeof file === 'String', 'file param must exist & must be of type string')
-  if (options) {
-    assert(typeof options === 'Object', 'if included, options param must be of type object' )
-  }
+  // checks to ensure params are formatted correctly
+  asserts(file, options);
+  
+  // for asset caching: get sha1 hash of asset (8 char length)
   const hash = await getImageHash(file);
+
+  // check if we've processed this asset already
   const isCompressed = await isAlreadyCompressed(hash);
 
   if (!isCompressed) {
     generateAssets(file, hash, options);
+    return `processed: ${file}`;
   } else {
-    // no compression / resize necessary
-    console.log(`already compressed - ${file}`);
+    return `already processed: ${file}`;
   }
 }
 
-// main("./carepro_conversation_i.jpg", { webp: true, toLowerCase: true });
-main("./carepro_conversation_ii.jpg", { webp: true, toLowerCase: true });
-main("./the_barrys.jpg", { webp: true, toLowerCase: true });
-main("./the_cohns.jpg", { webp: true, toLowerCase: true });
-main("./the_cubas.jpg", { webp: true, toLowerCase: true });
-main("./the_houstons.jpg", { webp: true, toLowerCase: true });
-main("./honor_training.jpg", { webp: true, toLowerCase: true });
+fs.readdir(assets, (err, files) => {
+  if (err) return err;
+
+  console.log(`processing: ${files}`);
+
+  // get all files in assets dir, then process
+  files.forEach(file => {
+    main(`./assets/${file}`, { webp: true, toLowerCase: true })
+      .then(result => {
+        console.log(`${result}`);
+      })
+      .catch(err => {
+        console.log(`called .catch with err: ${err}`);
+      });
+  });
+});
 
 module.exports = main;

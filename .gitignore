@@ -1,9 +1,26 @@
 .DS_Store
-/dist
 /node_modules
 
+
+# put all your assets into the /assets dir for processing
+# but do NOT check the originals into git
+/assets/*
+!/assets/.gitkeep
+
+
+# processed files will be output into /dist dir
+# but do NOT check them into git
+/dist/*
+!/dist/.gitkeep
+
+
+# manifest should be checked into git bc it
+# keeps a log of which assets have been processed
+# !/dist/manifest.json
+
+
 # removes any lingering images in this repo
-*.png
-*.jpg
-*.jpeg
-*.webp
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
