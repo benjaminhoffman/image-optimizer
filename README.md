@@ -7,20 +7,32 @@ Yet another image compression & resizing node module.
 
 ### Get Started
 
-Manually create this file: `dist/manifest.json` with an empty object `{}`
+The `/dist/manifest.json` file will indicate to this module to skip over files that have already been processed.  It uses the `sha1` hash of the file to know how to proceed.
 
-This manifest file will indicate to this module to skip over files that have already been processed.  It uses the `sha1` hash of the file to know how to proceed.
-
-This module accepts two parameters:
-- file path
-- options object
+This module accepts one parameter: an options object
 
 ```javascript
 const imageOptimizer = require('image-optimizer')
 
-imageOptimizer(
-  './example.png', // assuming this file is 2232px x 1286px
-  { webp: true })  // default false; will also generate webp version of the image
+imageOptimizer({
+  // also create webp versions
+  // default: false
+  webp: true,
+
+  // convert file names to all lower case
+  // default: false
+  toLowerCase: true,
+
+  // remove `@2x` from file name
+  // (sometimes appended by Sketch and exported by your design team)
+  // default: false
+  remove2x: true,
+
+  // removes spaces from file names and replaces them
+  // with whatever vale you put here
+  // default: false
+  replaceSpaces: '-'
+})
 ```
 
 ^^ this will output the following compressed png files:
@@ -38,15 +50,15 @@ imageOptimizer(
 - `/dist/example_446w_23699b50.webp`
 
 ### To Do
-- only resize smaller, not larger
-- ability to pass in a directory, not just a file name
-- option to edit the PNG and JPG compression settings
-- make faster... right now we `writeFileSync` and `readFileSync` but I think this can be refactored to be async and use async/await
-- resize count is hard coded to 5, we should make this more dynamic
-- error handling
-- logging
-- linter
-- connect to a CDN
+- [] only resize smaller, not larger
+- [x] ability to pass in a directory, not just a file name
+- [ ] option to edit the PNG and JPG compression settings
+- [ ] make faster... right now we `writeFileSync` and `readFileSync` but I think this can be refactored to be async and use async/await
+- [ ] resize count is hard coded to 5, we should make this more dynamic
+- [ ] error handling
+- [ ] logging
+- [ ] linter
+- [ ] connect to a CDN
 
 ### Notes
 - `.webp` files have a HUGE saving.  Use the `<picture>` element to implement

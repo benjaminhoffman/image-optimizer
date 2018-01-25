@@ -15,7 +15,7 @@ const fs = require("fs");
 async function main(file, options) {
   // checks to ensure params are formatted correctly
   asserts(file, options);
-  
+
   // for asset caching: get sha1 hash of asset (8 char length)
   const hash = await getImageHash(file);
 
@@ -33,11 +33,19 @@ async function main(file, options) {
 fs.readdir(assets, (err, files) => {
   if (err) return err;
 
+  // only process images (skip .gitkeep, non media, etc)
+  files = files.filter(file => file.search(/(png|jpe?g|webp)/g) > 0);
+
   console.log(`processing: ${files}`);
 
   // get all files in assets dir, then process
   files.forEach(file => {
-    main(`./assets/${file}`, { webp: true, toLowerCase: true })
+    main(`./assets/${file}`, {
+      webp: true, // also create webp versions
+      toLowerCase: true, // convert file names to all lower case
+      remove2x: true, // remove `@2x` from file name (sketch feature)
+      replaceSpaces: "-" // use `_` instead of spaces
+    })
       .then(result => {
         console.log(`${result}`);
       })

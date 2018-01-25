@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 /**
  * Accepts either an iamge hash or an array of image hashes
@@ -14,8 +14,8 @@ const fs = require("fs");
  // TO DO get the array version working
 
 const isAlreadyCompressed = imageHash => {
-  const manifest = "./dist/manifest.json";
-  const json = fs.readFileSync(manifest, "utf8");
+  const manifest = './dist/manifest.json';
+  const json = fs.readFileSync(manifest, 'utf8');
   const jsonParsed = JSON.parse(json);
 
   if (Array.isArray(imageHash)) {

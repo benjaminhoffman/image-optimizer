@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 const updateManifest = require("./update-manifest");
+const createFileName = require("./create-file-name");
 
 // determines how many resized versions of the image we want
 // for example, a value of 5 will generate:
@@ -13,9 +14,8 @@ const RESIZE_COUNT = 2;
  * @param {String} file - path to asset file
  * @param {String} hash - sha1 hash of the asset file
  * @param {Object} options - handful of options to control settings
- *  options.webp - whether you want to generate add'l webp versions
- * @returns handful of files into dist folder with the following format:
- *  fileName_pixelWidth_hash8.extension
+ * @returns outputs files into dist folder with the following format:
+ *  fileName_hash8_pixelWidth.extension
  */
 
 const generateAssets = (file, hash, options = {}) => {
@@ -33,10 +33,10 @@ const generateAssets = (file, hash, options = {}) => {
       for (let i = 1; i <= RESIZE_COUNT; i++) {
         const resize = Math.round(width / i);
 
-        // create new file name, and lower case if necessary
-        const toFile = options.toLowerCase
-          ? `./dist/${fileName}_${hash8}_${resize}w${ext}`.toLowerCase()
-          : `./dist/${fileName}_${hash8}_${resize}w${ext}`;
+        const toFile = createFileName(
+          { fileName, resize, hash8, ext },
+          options
+        );
 
         // will generate new, compressed sizes of original file
         image.resize(resize).toFile(toFile, err => {
@@ -45,10 +45,10 @@ const generateAssets = (file, hash, options = {}) => {
 
         // generate webp versions
         if (options.webp) {
-          // create new file name, and lower case if necessary
-          const toFileWebp = options.toLowerCase
-            ? `./dist/${fileName}_${hash8}_${resize}w.webp`.toLowerCase()
-            : `./dist/${fileName}_${hash8}_${resize}w.webp`;
+          const toFileWebp = createFileName(
+            { fileName, resize, hash8, ext: ".webp" },
+            options
+          );
 
           // will generate new, compressed webp sizes of original file
           image2
