@@ -6,7 +6,7 @@ const updateManifest = require("./update-manifest");
 // determines how many resized versions of the image we want
 // for example, a value of 5 will generate:
 // original, half, third, fourth, and fifth of the size
-const RESIZE_COUNT = 5;
+const RESIZE_COUNT = 2;
 
 /**
  * Generates new assets based on the original
@@ -18,7 +18,7 @@ const RESIZE_COUNT = 5;
  *  fileName_pixelWidth_hash8.extension
  */
 
-const generateAssets = (file, hash, options) => {
+const generateAssets = (file, hash, options = {}) => {
   const image = sharp(file);
   const image2 = sharp(file);
   const ext = path.extname(file);
@@ -32,19 +32,29 @@ const generateAssets = (file, hash, options) => {
 
       for (let i = 1; i <= RESIZE_COUNT; i++) {
         const resize = Math.round(width / i);
-        // will generate new, compressed sizes of original file
-        image
-          .resize(resize)
-          .toFile(`./dist/${fileName}_${resize}w_${hash8}${ext}`, err => {
-            if (err) console.log("asset err", err);
-          });
 
-        // will generate new, compressed webp files of originl
-        if (options && options.webp) {
+        // create new file name, and lower case if necessary
+        const toFile = options.toLowerCase
+          ? `./dist/${fileName}_${hash8}_${resize}w${ext}`.toLowerCase()
+          : `./dist/${fileName}_${hash8}_${resize}w${ext}`;
+
+        // will generate new, compressed sizes of original file
+        image.resize(resize).toFile(toFile, err => {
+          if (err) console.log("asset err", err);
+        });
+
+        // generate webp versions
+        if (options.webp) {
+          // create new file name, and lower case if necessary
+          const toFileWebp = options.toLowerCase
+            ? `./dist/${fileName}_${hash8}_${resize}w.webp`.toLowerCase()
+            : `./dist/${fileName}_${hash8}_${resize}w.webp`;
+
+          // will generate new, compressed webp sizes of original file
           image2
             .resize(resize)
             .webp()
-            .toFile(`./dist/${fileName}_${resize}w_${hash8}.webp`, err => {
+            .toFile(toFileWebp, err => {
               if (err) console.log("webp asset err", err);
             });
         }

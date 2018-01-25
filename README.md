@@ -38,6 +38,7 @@ imageOptimizer(
 - `/dist/example_446w_23699b50.webp`
 
 ### To Do
+- only resize smaller, not larger
 - ability to pass in a directory, not just a file name
 - option to edit the PNG and JPG compression settings
 - make faster... right now we `writeFileSync` and `readFileSync` but I think this can be refactored to be async and use async/await
