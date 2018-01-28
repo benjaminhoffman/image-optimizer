@@ -36,7 +36,7 @@ fs.readdir(assetsDir, (err, files) => {
   // only process images (skip .gitkeep, non media, etc)
   files = files.filter(file => file.search(/(png|jpe?g|webp)/g) > 0);
 
-  console.log(`processing: ${files}`);
+  // console.log(`processing: ${files}`);
 
   // get all files in assets dir, then process
   files.forEach(file => {
@@ -47,7 +47,7 @@ fs.readdir(assetsDir, (err, files) => {
       replaceSpaces: "_" // use `_` instead of spaces
     })
       .then(result => {
-        console.log(`${result}`);
+        // console.log(`${result}`);
       })
       .catch(err => {
         console.log(`called .catch with err: ${err}`);
