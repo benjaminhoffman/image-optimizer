@@ -2,7 +2,7 @@ const getImageHash = require("./utils/get-image-hash");
 const isAlreadyCompressed = require("./utils/is-already-compressed");
 const generateAssets = require("./utils/generate-assets");
 const asserts = require("./utils/asserts");
-const assets = "./assets/";
+const assetsDir = "./assets/";
 const fs = require("fs");
 
 /**
@@ -30,7 +30,7 @@ async function main(file, options) {
   }
 }
 
-fs.readdir(assets, (err, files) => {
+fs.readdir(assetsDir, (err, files) => {
   if (err) return err;
 
   // only process images (skip .gitkeep, non media, etc)
@@ -40,7 +40,7 @@ fs.readdir(assets, (err, files) => {
 
   // get all files in assets dir, then process
   files.forEach(file => {
-    main(`./assets/${file}`, {
+    main(`${assetsDir}${file}`, {
       webp: true, // also create webp versions
       toLowerCase: true, // convert file names to all lower case
       remove2x: true, // remove `@2x` from file name (sketch feature)

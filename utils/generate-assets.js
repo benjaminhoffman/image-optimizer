@@ -20,7 +20,6 @@ const RESIZE_COUNT = 2;
 
 const generateAssets = (file, hash, options = {}) => {
   const image = sharp(file);
-  const image2 = sharp(file);
   const ext = path.extname(file);
   const fileName = path.basename(file, ext);
   const hash8 = hash.substr(0, 8);
@@ -39,9 +38,13 @@ const generateAssets = (file, hash, options = {}) => {
         );
 
         // will generate new, compressed sizes of original file
-        image.resize(resize).toFile(toFile, err => {
-          if (err) console.log("asset err", err);
-        });
+        image
+          .clone() // make a duplicate of original
+          // .withoutEnlargement()  // prevent enlargement of original (see README.md TODO)
+          .resize(resize) // resize original
+          .toFile(toFile, err => {
+            if (err) console.log("asset err", err);
+          });
 
         // generate webp versions
         if (options.webp) {
@@ -51,9 +54,10 @@ const generateAssets = (file, hash, options = {}) => {
           );
 
           // will generate new, compressed webp sizes of original file
-          image2
-            .resize(resize)
-            .webp()
+          image
+            .clone() // make a duplicate of original
+            .resize(resize) // resize original
+            .webp() // convert MIME type
             .toFile(toFileWebp, err => {
               if (err) console.log("webp asset err", err);
             });

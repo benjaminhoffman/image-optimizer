@@ -1,9 +1,9 @@
 Yet another image compression & resizing node module.
 
 ### Using sharp library, this module will:
-- strip your image of its metadata
-- compress it for web rendering
-- resize it to 4 other smaller sizes so you can have faster mobile websites
+- remove image metadata
+- compress image for web rendering
+- resize image & create new file name that includes sha1 hash
 
 ### Get Started
 
@@ -50,10 +50,12 @@ imageOptimizer({
 - `/dist/example_446w_23699b50.webp`
 
 ### To Do
-- [] only resize smaller, not larger
+- [ ] get `.withoutEnlargement` to work correctly. (currently it creates an image with dimens of the largest version (ie, the original) but with a new file name representing a larger version
+- [ ] only resize smaller, not larger
 - [x] ability to pass in a directory, not just a file name
 - [ ] option to edit the PNG and JPG compression settings
 - [ ] make faster... right now we `writeFileSync` and `readFileSync` but I think this can be refactored to be async and use async/await
+- [ ] write spec
 - [ ] resize count is hard coded to 5, we should make this more dynamic
 - [ ] error handling
 - [ ] logging

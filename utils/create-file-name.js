@@ -22,7 +22,6 @@ const createFileName = (properties = {}, options = {}) => {
     fileName = fileName.replace(/ /g, replaceSpaces);
   }
 
-  console.log(fileName);
   return `./dist/${fileName}_${hash8}_${resize}w${ext}`;
 };
 
